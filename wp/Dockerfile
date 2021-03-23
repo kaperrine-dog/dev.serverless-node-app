@@ -8,6 +8,26 @@ RUN apt-get -y install wget unzip sudo less vim ibus-mozc iputils-ping
 
 RUN echo export LANG=ja_JP.UTF-8 >> ~/.profile
 
+
+#webadmin作成
+ARG UID=900
+ARG GID=900
+ARG GROUPS=900
+ARG USERNAME=webadmin
+#要変更
+ARG PASSWD=webadmin 
+
+RUN useradd  -o ${NAME}
+
+# echo "username:password" | chpasswd
+# root password is "root"
+
+RUN echo "root:root" | chpasswd && \
+    adduser -u ${UID} -g ${GID} -p ${PASSWD} --disabled-password --gecos "" "${USERNAME}" && \
+    echo "${USERNAME}:${USERNAME}" | chpasswd && \
+    echo "%${USERNAME}    ALL=(ALL)   NOPASSWD:    ALL" >> /etc/sudoers.d/${USERNAME} && \
+    chmod 0440 /etc/sudoers.d/${USERNAME}
+
 #wp-cliインストール
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
      && chmod +x wp-cli.phar \
