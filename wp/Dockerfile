@@ -17,13 +17,12 @@ ARG USERNAME=webadmin
 #要変更
 ARG PASSWD=webadmin 
 
-RUN useradd  -o ${NAME}
 
 # echo "username:password" | chpasswd
 # root password is "root"
 
 RUN echo "root:root" | chpasswd && \
-    adduser -u ${UID} -g ${GID} -p ${PASSWD} --disabled-password --gecos "" "${USERNAME}" && \
+    adduser -u ${UID} -g ${GID} -G ${GROUPS} -p ${PASSWD} --disabled-password --gecos "" "${USERNAME}" && \
     echo "${USERNAME}:${USERNAME}" | chpasswd && \
     echo "%${USERNAME}    ALL=(ALL)   NOPASSWD:    ALL" >> /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME}
