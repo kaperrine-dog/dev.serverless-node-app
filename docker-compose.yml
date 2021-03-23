@@ -1,0 +1,60 @@
+version: "3.7"
+services:
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db_data:/var/lib/mysql
+      
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wp:
+    depends_on:
+      - db
+    build: 
+      context: ./php
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: "true"
+      WORDPRESS_TABLE_PREFIX: wp_
+    volumes:
+      - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./php/src/${HOST}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
+      - ./php/src/${HOST}/httpdocs/cms/wp-content/:/var/www/html/wp-content/uploads/:cached
+      - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
+    expose: 
+      - "80"
+    ports:
+      - ${WP_LOCALPORT}:80
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - ${PHPMYADMIN_LOCALPORT}:80
+    depends_on:
+      - db
+    
+  srdb:
+    image: kgaut/docker-search-replace-db
+    ports: 
+      - ${SRDB_LOCALPORT}:80
+    environment:
+      DB_HOST: 'db:3306'
+      DB_USER: 'wordpress'
+      DB_PASS: 'wordpress'
+      DB_NAME: 'wordpress'
+    depends_on: 
+      - db
+
+volumes:
+  db_data:
