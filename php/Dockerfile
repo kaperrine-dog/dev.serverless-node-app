@@ -6,6 +6,10 @@ COPY ./wp-setup.sh /var/www/html/wp-setup.sh
 RUN apt-get update
 RUN apt-get -y install wget unzip sudo less vim ibus-mozc iputils-ping
 
+#日本語化
+RUN apt-get install -y locales
+RUN echo "ja_JP UTF-8" > /etc/locale.gen
+RUN locale-gen
 RUN echo export LANG=ja_JP.UTF-8 >> ~/.profile
 
 #wp-cliインストール
