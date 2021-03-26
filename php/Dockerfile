@@ -1,7 +1,8 @@
 FROM wordpress:5.6.1-php7.4-apache
 
 WORKDIR /var/www/html
-COPY ./wp-setup.sh /var/www/html/wp-setup.sh
+COPY ./wp-setup.sh /var/www/html/
+COPY ./config/php.ini /usr/local/etc/php/conf.d/
 
 RUN apt-get update
 RUN apt-get -y install wget unzip sudo less vim ibus-mozc iputils-ping
