@@ -61,6 +61,7 @@ services:
     ports:
       - ${WP_HTTP_LOCALPORT}:80
 #      - ${WP_HTTPS_LOCALPORT}:443
+    command: bash wp-setup.sh
 
   phpmyadmin:
     container_name: ${PROJECT_NAME}_phpmyadmin
