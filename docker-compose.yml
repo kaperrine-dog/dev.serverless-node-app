@@ -57,10 +57,10 @@ services:
       - ./php/src/${HOST}/httpdocs/.htaccess:/var/www/html/.htaccess
     expose: 
       - "80"
-      - "443"
+#      - "443"
     ports:
       - ${WP_HTTP_LOCALPORT}:80
-      - ${WP_HTTPS_LOCALPORT}:443
+#      - ${WP_HTTPS_LOCALPORT}:443
 
   phpmyadmin:
     container_name: ${PROJECT_NAME}_phpmyadmin
