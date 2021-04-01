@@ -13,8 +13,7 @@ services:
 #    ports: 
 #      - ${NODE_LOCALPORT8000}:8000
 #      - ${NODE_LOCALPORT3000}:3000
-#      command: "npm start\ 
-#          gatsby new gatsby-wp-project https://github.com/GatsbyCentral/gatsby-starter-wordpress"
+#      command: "gatsby develop --host=0.0.0.0"
 #    stdin_open: true
 
   db:
