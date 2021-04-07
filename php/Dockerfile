@@ -22,5 +22,9 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 ENV WPINSTALLDIR=/var/www/html
 
 
-RUN wp core download \
-    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
+#RUN wp core download \
+#    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
+
+ARG THEMENAME=${HOST}
+COPY ./wp-setup.sh ${WPINSTALLDIR}/
+RUN /var/www/html/wp-setup.sh

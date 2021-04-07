@@ -38,6 +38,7 @@ services:
       - db
     build: 
       context: ./php
+#      context: ./wp      
       dockerfile: ./Dockerfile
     restart: always
     environment:
