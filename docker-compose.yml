@@ -2,6 +2,7 @@ version: "3.7"
 services:
 #  node:
 #    build: 
+#      container_name: ${PROJECT_NAME}_node
 #      context: ./node
 #      dockerfile: ./Dockerfile
 #    user: "node"
@@ -54,6 +55,11 @@ services:
       - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
       - ./php/src/${HOST}/httpdocs/exhibition:/var/www/html/exhibition:cached
       - ./php/src/${HOST}/httpdocs/.htaccess:/var/www/html/.htaccess
+      #- ./wp/config/php.ini:/usr/local/etc/php/conf.d/php.ini
+      #- ./wp/themes/:/var/www/html/wp-content/themes/:cached
+      #- ./wp/uploads:/var/www/html/wp-content/uploads:cached
+      #- ./wp/wp-setup.sh:/var/www/html/wp-setup.sh
+      #- ./wp/.htaccess:/var/www/html/.htaccess
     expose: 
       - "80"
 #      - "443"
@@ -84,7 +90,6 @@ services:
       DB_NAME: 'wordpress'
     depends_on: 
       - db
-  
 
 volumes:
   db_data:
