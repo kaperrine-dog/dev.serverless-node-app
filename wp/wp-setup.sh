@@ -1,11 +1,12 @@
 #!/bin/bash
 
+WPINSTALLDIR=/var/www/html
 # WordPressセットアップ
 wp core download --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
 wp core install --path='/var/www/html/' --url='http://localhost:9010' --title='The Project' --admin_user='admin' --admin_password='admin' --admin_email='iikentazuma@gmail.com' --allow-root
 
-wp config create --dbname='wordpress' --dbuser='wordrpress' --dbpass='wordpress' --dbhost='db:3306'  --dbprefix='wp_' --force --allow-root
+wp config create --dbname='wordpress' --dbuser='wordrpress' --dbpass='wordpress' --dbhost='db:3306'  --dbprefix='wp_' --path=${WPINSTALLDIR} --force --allow-root
 
 # 日本語化
 wp language core install ja --activate --allow-root 
