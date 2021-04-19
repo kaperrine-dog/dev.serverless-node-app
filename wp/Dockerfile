@@ -48,4 +48,4 @@ ENV WPINSTALLDIR=/var/www/html
 
 ARG THEMENAME=${HOST}
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
-RUN /var/www/html/wp-setup.sh
+#RUN /var/www/html/wp-setup.sh
