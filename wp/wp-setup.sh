@@ -1,14 +1,9 @@
 #!/bin/bash
 
-WP_PORT=9010
-WPINSTALLDIR=/var/www/html
 # WordPressセットアップ
-wp core download --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
+wp core download --allow-root
 
-wp config create --dbname='wordpress' --dbuser='wordrpress' --dbpass='wordpress' --dbhost='db:3306'  --dbprefix='wp_' --path=${WPINSTALLDIR} --force --allow-root
-
-wp core install --path='/var/www/html/' --url="http://localhost:${WP_PORT}" --title='The Project' --admin_user='admin' --admin_password='admin' --admin_email='iikentazuma@gmail.com' --path=${WPINSTALLDIR} --allow-root
-
+wp core install --path='/var/www/html/' --url='http://localhost:9055' --title='The Project' --admin_user='admin' --admin_password='admin' --admin_email='iikentazuma@gmail.com' --allow-root
 
 # 日本語化
 wp language core install ja --activate --allow-root 
@@ -54,6 +49,6 @@ wp theme delete twentyseventeen --allow-root
 wp theme delete twentyeighteen --allow-root
 wp theme delete twentynineteen --allow-root
 
-# scaffold new empty theme for using wp as headless cms
+# 新規テーマのひな型を追加してアクティブ化(new-themeは任意のテーマ識別子)
 #wp scaffold _s new-theme --theme_name="empty_theme" --author="ii" --allow-root
 #wp theme activate new-theme --allow-root

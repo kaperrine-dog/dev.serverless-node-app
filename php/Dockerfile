@@ -1,4 +1,4 @@
-FROM wordpress:5.6.1-php7.4-apache
+FROM wordpress:5.7.2-php7.4-apache
 
 WORKDIR /var/www/html
 COPY ./wp-setup.sh /var/www/html/
