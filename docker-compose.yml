@@ -67,7 +67,8 @@ services:
     ports:
       - ${WP_HTTP_LOCALPORT}:80
 #      - ${WP_HTTPS_LOCALPORT}:443
-    command: ""
+    command: >
+      /bin/bash ./php/docker-entrypoint.sh
 
   phpmyadmin:
     container_name: ${REPO_NAME}_phpmyadmin
