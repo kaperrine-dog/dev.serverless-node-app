@@ -116,7 +116,7 @@ $ docker-compose up -d
 下記でコンテナ内へアクセス。
 
 ```bash
-$ docker exec -it コンテナ名 bash
+$ docker exec -it $container_name bash
 ```
 
 コンテナ名は`docker-compose.yml`のあるディレクトリの`.env`に書くようにしています.
@@ -143,7 +143,7 @@ $ bash wp-setup.sh
 
 `WordPress`をヘッドレスCMSとして`Node.js`のプロジェクトを立てる場合は
 `wp/`以下は特に何もコピーしなくていいですが,
-コンテナ内で`wp-setup.sh`を回すのを忘れないようにしてください。
+コンテナ内で`wp-setup.sh`を回す事を忘れないようにしてください。
 
 ```bash
 $ docker-compose up -d
@@ -157,7 +157,4 @@ $ bash wp-wetup.sh
 ```
 
 
-
-
-
-以上.
+That's all.
