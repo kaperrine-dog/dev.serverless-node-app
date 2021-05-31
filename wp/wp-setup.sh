@@ -3,7 +3,7 @@
 # WordPressセットアップ
 wp core download --allow-root
 
-wp core install --path='/var/www/html/' --url='http://localhost:9055' --title='The Project' --admin_user='admin' --admin_password='admin' --admin_email='iikentazuma@gmail.com' --allow-root
+wp core install --path='/var/www/html/' --url='http://localhost:10000/' --title='The Project' --admin_user='admin' --admin_password='admin' --admin_email='your-email-address@example.com' --allow-root
 
 # 日本語化
 wp language core install ja --activate --allow-root 
