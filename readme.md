@@ -1,4 +1,5 @@
-# WordPress用環境構築ファイルセット
+# WordPress x Node.js用Docker環境構築
+
 Dockerコンテナのオーケストレーションツール `Docker compose` を利用
 
 - `.env` 内にdocker-compose.ymlの環境変数を定義
@@ -7,34 +8,36 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 
 ~~~
 .
-├── .env
-├── .gitignore
 ├── docker-compose.yml
 ├── mysql
+│   ├── Dockerfile
+│   ├── db_data
+│   └── mysqld_charset.cnf
 ├── node
-│   ├── .dockerignore
-│   ├── .gitignore
 │   ├── Dockerfile
 │   └── app
-│       ├── ...
-│       ├── ...
+│       ├── LICENSE
+│       ├── README.md
+│       ├── ...node_projects
 ├── php
-│   ├── .dockerignore
 │   ├── Dockerfile
 │   ├── config
 │   │   └── php.ini
 │   ├── src
-│   │   └── foobar.com
-│   │       └── httpdocs
+│   │   ├── gulpfile.babel.js
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   └── webpack.config.js
 │   └── wp-setup.sh
+├── phpmyadmin
+│   └── phpmyadmin-misc.ini
 ├── readme.md
 └── wp
-    ├── .dockerignore
     ├── Dockerfile
     ├── config
     │   └── php.ini
+    ├── docker-entrypoint.sh
     ├── gulpfile.babel.js
-    ├── package-lock.json
     ├── package.json
     ├── webpack.config.js
     ├── wp-content
@@ -47,7 +50,7 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 - `wp/` : `WordPress`をバックエンドCMSに用いたHeadlessCMS用ボリューム何も置かなくていい
 - `mysql/` : データベースの設定ファイルなどを入れるボリューム
 - `mysql/db_data/` : データベースの永続化のためのデータ格納用ボリューム
-- `.env` : **状況に応じて適宜変更のこと** 環境変数, `docker-compose up`などのコマンド事項の際に読みに行きます。
+- `.env` : **作成する環境毎に変更** 環境変数, `docker-compose up`などのコマンド事項の際に読みに行きます。
 - `node/` : `Node.js`ベースのフレームワーク(`React.js`, `Vue.js`等)を使用する際に使います. `node/app`にプロジェクトを配置します。
 
 - `Dockerコンテナ`内のパスワードは`node/`の場合`node`のような感じ. `root`ユーザーは`root`
@@ -63,10 +66,13 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 ```
 $ cd php/src
 ```
+
 目的のプロジェクトを`git clone`
+
 ```
-$ git clone git@v133-130-69-92.myvps.jp:$GITUSERNAME/new-project.com.git
+$ git clone git@$GITHOST:$GITUSERNAME/new-project.com.git
 ```
+
 そうすると
 `dev.new-project.com/php/src/new-project.com/httpdocs/...`
 
