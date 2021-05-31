@@ -47,14 +47,14 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 ~~~
 # 説明
 - `php/` : `WordPress`や`PHP`のみで動く環境の場合に使用するボリューム`php/src/`で`git clone`を行う
-- `wp/` : `WordPress`をバックエンドCMSに用いたHeadlessCMS用ボリューム何も置かなくていい
+- `wp/` : `WordPress`をHeadlessCMSとして使用する場合のボリューム。何も置かなくていい。
 - `mysql/` : データベースの設定ファイルなどを入れるボリューム
 - `mysql/db_data/` : データベースの永続化のためのデータ格納用ボリューム
 - `.env` : **作成する環境毎に変更** 環境変数, `docker-compose up`などのコマンド事項の際に読みに行きます。
-- `node/` : `Node.js`ベースのフレームワーク(`React.js`, `Vue.js`等)を使用する際に使います. `node/app`にプロジェクトを配置します。
+- `node/` : `Node.js`ベースのフレームワーク(e.g. `React.js`, `Vue.js`)を使用する際に使います. `node/app`直下にプロジェクトを配置します。
 
-- `Dockerコンテナ`内のパスワードは`node/`の場合`node`のような感じ. `root`ユーザーは`root`
-- `php/`と`wp/`の方は常にコンテナ内に`root`で入るようになっていたと思います.
+- `Dockerコンテナ`内のパスワードは`node/`の場合`node`, `root`ユーザーは`root`
+- `php/`と`wp/`の方は常にコンテナ内に`root`で入るようになっていたと思います(`wp-cli`利用時`--allow-root`が必須).
 
 
 # 使い方
@@ -70,7 +70,7 @@ $ cd php/src
 目的のプロジェクトを`git clone`
 
 ```
-$ git clone git@$GITHOST:$GITUSERNAME/new-project.com.git
+$ git clone git@$GITHOST:$GITNAME/new-project.com.git
 ```
 
 そうすると
