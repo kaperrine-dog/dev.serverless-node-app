@@ -1,6 +1,5 @@
 version: "3.7"
 services:
-#  in case of using node.js as frontend env
 #  node:
 #    build: 
 #      container_name: ${REPO_NAME}_node
@@ -39,8 +38,7 @@ services:
       - db
     build: 
       context: ./php
-      #in case of using it as headless cms
-      #context: ./wp      
+#      context: ./wp      
       dockerfile: ./Dockerfile
     restart: always
     environment:
@@ -55,14 +53,13 @@ services:
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
       - ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
-      - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
-      - ./php/src/${HOST_NAME}/httpdocs/exhibition:/var/www/html/exhibition:cached
       - ./php/src/${HOST_NAME}/httpdocs/.htaccess:/var/www/html/.htaccess
-      # in case of using headless CMS
+      - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
+      - ./php/docker-entrypoint.sh:/var/www/html/docker-entrypoint.sh
+      #- ./wp/wp-setup.sh:/var/www/html/wp-setup.sh
       #- ./wp/config/php.ini:/usr/local/etc/php/conf.d/php.ini
       #- ./wp/themes/:/var/www/html/wp-content/themes/:cached
       #- ./wp/uploads:/var/www/html/wp-content/uploads:cached
-      #- ./wp/wp-setup.sh:/var/www/html/wp-setup.sh
       #- ./wp/.htaccess:/var/www/html/.htaccess
     expose: 
       - "80"
@@ -70,8 +67,9 @@ services:
     ports:
       - ${WP_HTTP_LOCALPORT}:80
 #      - ${WP_HTTPS_LOCALPORT}:443
-    command: >
-      /bin/bash ./php/docker-entrypoint.sh
+#    command: >
+#      /bin/bash docker-entrypoint.sh
+
 
   phpmyadmin:
     container_name: ${REPO_NAME}_phpmyadmin

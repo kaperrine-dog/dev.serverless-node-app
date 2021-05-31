@@ -50,4 +50,5 @@ ENV WPINSTALLDIR=/var/www/html
 
 ARG THEMENAME=${HOST}
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
+COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
 #RUN /var/www/html/wp-setup.sh
