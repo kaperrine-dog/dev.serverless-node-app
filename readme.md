@@ -6,7 +6,7 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 
 ディレクトリ構成は以下の通り
 
-~~~
+~~~bash
 .
 ├── docker-compose.yml
 ├── mysql
@@ -63,56 +63,71 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 `dev.wp-docker/*`を`$ cp dev.wp-docker/* dev.new-project.com`などしてコピーする.
 
 その後`php/src`に移動し,
-```
+
+```bash
 $ cd php/src
 ```
 
 目的のプロジェクトを`git clone`
 
-```
-$ git clone git@$GITHOST:$GITNAME/new-project.com.git
+```bash
+$ git clone git@$GITHOST:$GITNAME/new-project.git
 ```
 
 そうすると
 `dev.new-project.com/php/src/new-project.com/httpdocs/...`
 
-となる
+となる.
+
 
 `wp-config.php`ファイルは
 `dev.new-project.com/php/src/new-project.com/httpdocs/cms/wp-config.php`に配置し, `docker`内のDB情報と合わせる.
 
-`phpMyAdmin`に入って
-`wordpress`のDBでSQLのDBインポート.
+`phpMyAdmin`に入るか、`MySQL`のコンテナに入って
+`wordpress`のDBでDBをインポート.
 
 データベースの環境変数として以下に設定してあるので
-```:docker-compose.yml
+
+```yml:title=docker-compose.yml
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
 ```
+
 これに合うように`wp-config.php`を書き換えてください.
 
+## build, daemon起動
 
-`docker-compose.yml`のあるディレクトリ(開発プロジェクトルート)に戻って
-(ここでは`dev.new-project.com`)
-```
+`docker-compose.yml`のあるディレクトリ(Dockerプロジェクトルート)に戻って
+
+```bash
 $ docker-compose up -d
 ```
-を行う
 
-```
+を行う
+初回で`docker image`がない場合や`Dockerfile`に変更があった場合は`docker-compose up --build`が同時に走って`docker image`とキャッシュが作成される。
+
+`build cache`が存在する場合は差分のみ`build`実施されます。
+
+## コンテナ内のSSHにログイン
+
+下記でコンテナ内へアクセス。
+
+```bash
 $ docker exec -it コンテナ名 bash
 ```
-でコンテナ内にSSHでログイン.
+
 コンテナ名は`docker-compose.yml`のあるディレクトリの`.env`に書くようにしています.
 
 `WordPress`の場合は, 初回のみ,
 コンテナにログインした後
-```
+
+```bash
 $ bash wp-setup.sh
 ```
+
 を回してください.
 `wp-cli`で自動で`WordPress`環境を構築してくれます.
 
@@ -130,13 +145,14 @@ $ bash wp-setup.sh
 `wp/`以下は特に何もコピーしなくていいですが,
 コンテナ内で`wp-setup.sh`を回すのを忘れないようにしてください。
 
-```
+```bash
 $ docker-compose up -d
 $ docker exec -it wpコンテナ名 bash
 ```
+
 でコンテナ内にログインして
 
-```
+```bash
 $ bash wp-wetup.sh
 ```
 
