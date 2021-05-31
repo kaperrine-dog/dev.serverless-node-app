@@ -45,6 +45,18 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 ENV WPINSTALLDIR=/var/www/html
 
+# nvm install
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+# nvm .profile
+RUN echo -e 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
+RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
+
+
+# Node.js 14.x install
+#RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+#RUN sudo apt-get install -y nodejs
+
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
