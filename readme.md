@@ -111,8 +111,8 @@ $ bash wp-setup.sh
 `wp-cli`で自動で`WordPress`環境を構築してくれます.
 
 
-
 ## `Node.js`プロジェクトの場合
+
 `docker-compose.yml`の`node`コンテナの部分のコメントアウトを外す.
 
 `Node.js`のみ必要な場合は適宜不要なコンテナをコメントアウト
@@ -123,15 +123,19 @@ $ bash wp-setup.sh
 `WordPress`をヘッドレスCMSとして`Node.js`のプロジェクトを立てる場合は
 `wp/`以下は特に何もコピーしなくていいですが,
 コンテナ内で`wp-setup.sh`を回すのを忘れないようにしてください。
+
 ```
 $ docker-compose up -d
-$ docker exec -it nodeプロジェクトのwpのコンテナ名 bash
+$ docker exec -it wpコンテナ名 bash
 ```
 でコンテナ内にログインして
 
+```
+$ bash wp-wetup.sh
+```
 
 
-その他不明点あれば聞いてください. 
+
 
 
 以上.

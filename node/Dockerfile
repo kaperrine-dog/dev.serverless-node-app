@@ -54,19 +54,20 @@ RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
 #RUN adduser -D -u 1001 -s /bin/sh -G wheel alpine-sudoer
 #RUN echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-# ユーザーを作成
+# create a user
 #ARG DOCKER_UID=1000
 #ARG DOCKER_USER=node
 #ARG DOCKER_PASSWORD=node
 #RUN useradd -m --uid ${DOCKER_UID} --groups sudo ${DOCKER_USER} \
 #  && echo ${DOCKER_USER}:${DOCKER_PASSWORD} | chpasswd
 
-# 作成したユーザーに切り替える
+# change user
 #USER ${DOCKER_USER}
 
 
 
-# 本番環境では production
+# in case of production env
+# ENV NODE_ENV=development
 ENV NODE_ENV=development
 
 WORKDIR /home/node/app

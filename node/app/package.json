@@ -1,0 +1,37 @@
+{
+  "name": "gatsby-starter-wordpress-twenty-twenty",
+  "description": "Gatsby port of the WordPress Twenty Twenty theme.",
+  "license": "SEE LICENSE IN <LICENSE>",
+  "version": "0.0.1",
+  "author": {
+    "name": "Henrik Wirth",
+    "email": "info@henrikwirth.de"
+  },
+  "scripts": {
+    "develop": "gatsby develop",
+    "clean": "gatsby clean",
+    "build": "gatsby build",
+    "cdev": "gatsby clean && gatsby develop",
+    "cbuild": "gatsby clean && gatsby build",
+    "start": "npm run develop",
+    "serve": "gatsby serve"
+  },
+  "dependencies": {
+    "dotenv": "^9.0.2",
+    "gatsby": "^3.5.0",
+    "gatsby-plugin-image": "^1.5.0",
+    "gatsby-plugin-notifications": "^0.0.2",
+    "gatsby-plugin-react-svg": "^3.0.1",
+    "gatsby-plugin-sharp": "^3.5.0",
+    "gatsby-source-filesystem": "^3.5.0",
+    "gatsby-source-wordpress": "^5.5.0",
+    "gatsby-transformer-sharp": "^3.5.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.0"
+  }
+}
