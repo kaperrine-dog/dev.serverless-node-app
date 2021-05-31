@@ -3,7 +3,12 @@
 # WordPressセットアップ
 wp core download --allow-root
 
-wp core install --path='/var/www/html/' --url='http://localhost:9055' --title='The Project' --admin_user='admin' --admin_password='admin' --admin_email='iikentazuma@gmail.com' --allow-root
+wp config create --dbname="wordpress" --dbuser="wordpress" --dbpass="wordpress" --dbhost="db:3306" --dbprefix="wp_" --dbcharset="utf8" --allow-root --extra-php <<PHP
+define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
+PHP
+
+wp core install --path='/var/www/html/' --url='http://localhost' --title='site title' --admin_user='admin' --admin_password='admin' --admin_email='somebody@gmail.com' --allow-root
 
 # 日本語化
 wp language core install ja --activate --allow-root 
@@ -48,6 +53,8 @@ wp plugin install contact-form-cfdb7 --activate --allow-root
 wp theme delete twentyseventeen --allow-root
 wp theme delete twentyeighteen --allow-root
 wp theme delete twentynineteen --allow-root
+wp theme delete twentytwenty --allow-root
+wp theme delete twentytwentyone --allow-root
 
 # 新規テーマのひな型を追加してアクティブ化(new-themeは任意のテーマ識別子)
 #wp scaffold _s new-theme --theme_name="empty_theme" --author="ii" --allow-root
