@@ -1,20 +1,20 @@
 {
-  "name": "bikentec.co.jp",
+  "name": "settsu-yamauchi-cl.jp",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Kent Azuma",
-  "license": "ISC",
+  "author": "anyone",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/kaperrine-dog/gatsby-wp.git"
+    "url": ""
   },
   "bugs": {
-    "url": "https://github.com/kaperrine-dog/bikentec.co.jp/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/kaperrine-dog/bikentec.co.jp#readme",
+  "homepage": "",
   "description": "",
   "devDependencies": {
     "@babel/register": "^7.12.13",

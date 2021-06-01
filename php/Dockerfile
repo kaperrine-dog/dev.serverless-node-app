@@ -1,4 +1,4 @@
-FROM wordpress:5.6.1-php7.4-apache
+FROM wordpress:5.7.2-php7.4-apache
 
 WORKDIR /var/www/html
 COPY ./wp-setup.sh /var/www/html/
@@ -45,9 +45,18 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 ENV WPINSTALLDIR=/var/www/html
 
+# nvm install
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+# nvm .profile
+RUN echo -e 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
+RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
+
+
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
 ARG THEMENAME=${HOST}
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
+COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
 #RUN /var/www/html/wp-setup.sh

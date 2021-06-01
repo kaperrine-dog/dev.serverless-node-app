@@ -2,7 +2,7 @@ version: "3.7"
 services:
 #  node:
 #    build: 
-#      container_name: ${PROJECT_NAME}_node
+#      container_name: ${REPO_NAME}_node
 #      context: ./node
 #      dockerfile: ./Dockerfile
 #    user: "node"
@@ -14,11 +14,11 @@ services:
 #    ports: 
 #      - ${NODE_LOCALPORT8000}:8000
 #      - ${NODE_LOCALPORT3000}:3000
-#      command: "gatsby develop --host=0.0.0.0"
+#      command: ""
 #    stdin_open: true
 
   db:
-    container_name: ${PROJECT_NAME}_db
+    container_name: ${REPO_NAME}_db
     build: 
       context: ./mysql
       dockerfile: ./Dockerfile
@@ -33,7 +33,7 @@ services:
       MYSQL_PASSWORD: wordpress
 
   wp:
-    container_name: ${PROJECT_NAME}_wp
+    container_name: ${REPO_NAME}_wp
     depends_on:
       - db
     build: 
@@ -51,15 +51,15 @@ services:
       WORDPRESS_TABLE_PREFIX: wp_
     volumes:
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./php/src/${HOST}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
-      - ./php/src/${HOST}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
+      - ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/
+      - ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
+      - ./php/src/${HOST_NAME}/httpdocs/.htaccess:/var/www/html/.htaccess
       - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
-      - ./php/src/${HOST}/httpdocs/exhibition:/var/www/html/exhibition:cached
-      - ./php/src/${HOST}/httpdocs/.htaccess:/var/www/html/.htaccess
+      - ./php/docker-entrypoint.sh:/var/www/html/docker-entrypoint.sh
+      #- ./wp/wp-setup.sh:/var/www/html/wp-setup.sh
       #- ./wp/config/php.ini:/usr/local/etc/php/conf.d/php.ini
       #- ./wp/themes/:/var/www/html/wp-content/themes/:cached
       #- ./wp/uploads:/var/www/html/wp-content/uploads:cached
-      #- ./wp/wp-setup.sh:/var/www/html/wp-setup.sh
       #- ./wp/.htaccess:/var/www/html/.htaccess
     expose: 
       - "80"
@@ -67,10 +67,12 @@ services:
     ports:
       - ${WP_HTTP_LOCALPORT}:80
 #      - ${WP_HTTPS_LOCALPORT}:443
-    command: bash wp-setup.sh
+#    command: >
+#      /bin/bash docker-entrypoint.sh
+
 
   phpmyadmin:
-    container_name: ${PROJECT_NAME}_phpmyadmin
+    container_name: ${REPO_NAME}_phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
     ports:
       - ${PHPMYADMIN_LOCALPORT}:80
@@ -80,7 +82,7 @@ services:
       - db
     
   srdb:
-    container_name: ${PROJECT_NAME}_srdb
+    container_name: ${REPO_NAME}_srdb
     image: kgaut/docker-search-replace-db
     ports: 
       - ${SRDB_LOCALPORT}:80

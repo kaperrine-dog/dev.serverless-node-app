@@ -1,5 +1,4 @@
 # WordPress用環境構築ファイルセット
-Dockerコンテナのオーケストレーションツール `Docker compose` を利用
 
 - `.env` 内にdocker-compose.ymlの環境変数を定義
 
