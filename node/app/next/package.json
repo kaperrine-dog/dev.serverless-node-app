@@ -1,0 +1,13 @@
+{
+  "name": "HospitalTheme",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "someone",
+  "license": "MIT",
+  "dependencies": {
+    "install": "^0.13.0",
+    "next": "^11.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

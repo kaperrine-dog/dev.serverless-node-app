@@ -1,21 +1,21 @@
 version: "3.7"
 services:
-#  node:
-#    build: 
-#      container_name: ${REPO_NAME}_node
-#      context: ./node
-#      dockerfile: ./Dockerfile
-#    user: "node"
-#    working_dir: /home/node/app
-#    environment:
-#      - NODE_ENV=development
-#    volumes:
-#      - ./node:/home/node/
-#    ports: 
-#      - ${NODE_LOCALPORT8000}:8000
-#      - ${NODE_LOCALPORT3000}:3000
-#      command: ""
-#    stdin_open: true
+ node:
+   build: 
+     container_name: ${REPO_NAME}_node
+     context: ./node
+     dockerfile: ./Dockerfile
+   user: "node"
+   working_dir: /home/node/app
+   environment:
+     - NODE_ENV=development
+   volumes:
+     - ./node:/home/node/
+   ports: 
+     - ${NODE_LOCALPORT8000}:8000
+     - ${NODE_LOCALPORT3000}:3000
+     command: ""
+   stdin_open: true
 
   db:
     container_name: ${REPO_NAME}_db
