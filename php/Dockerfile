@@ -56,6 +56,24 @@ RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
+
+RUN sudo apt install golang-go && \
+    go get -u github.com/justjanne/powerline-go
+
+RUN touch $HOME/.bashrc
+
+#Debian系では$削除
+RUN echo -e '\n\
+GOPATH=$HOME/go\n\
+function _update_ps1() {\n\
+    PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
+}\n\
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
+fi\n\
+' >> $HOME/.bashrc
+
+
 ARG THEMENAME=${HOST}
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
