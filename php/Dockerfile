@@ -5,7 +5,7 @@ COPY ./wp-setup.sh /var/www/html/
 COPY ./config/php.ini /usr/local/etc/php/conf.d/
 
 RUN apt-get update
-RUN apt-get -y install wget unzip sudo less vim ibus-mozc iputils-ping
+RUN apt-get -y install wget unzip sudo less vim ibus-mozc iputils-ping git
 
 #日本語化
 RUN apt-get install -y locales
@@ -57,7 +57,7 @@ RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' 
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
 
-RUN sudo apt install golang-go && \
+RUN sudo apt install golang-go -y && \
     go get -u github.com/justjanne/powerline-go
 
 RUN touch $HOME/.bashrc
