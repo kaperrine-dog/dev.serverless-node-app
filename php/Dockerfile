@@ -1,17 +1,22 @@
 FROM wordpress:5.7.2-php7.4-apache
 
 #SHELL to /bin/bash
-SHELL ["/bin/bash", "-c"]
+#SHELL ["/bin/bash", "-c"]
 
 WORKDIR /var/www/html
 COPY ./wp-setup.sh /var/www/html/
 COPY ./config/php.ini /usr/local/etc/php/conf.d/
 
-RUN apt update
-RUN apt -y install wget unzip sudo less vim ibus-mozc iputils-ping git
+#諸々インストール
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get -y install --no-install-recommends wget unzip sudo less vim ibus-mozc \
+    iputils-ping git locales \
+    curl git mercurial make binutils bison gcc build-essential golang-go \
+    apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/*
+
 
 #日本語化
-RUN apt-get install -y locales
 RUN echo "ja_JP UTF-8" > /etc/locale.gen
 RUN locale-gen
 RUN echo export LANG=ja_JP.UTF-8 >> ~/.profile
@@ -51,10 +56,11 @@ ENV WPINSTALLDIR=/var/www/html
 # nvm install
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-# nvm .profile
+# nvm .profile install node --lts
 RUN echo -e 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
 RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
-
+RUN . $HOME/.bashrc
+RUN nvm install --lts
 
 # Node.js 14.x install
 #RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
@@ -63,16 +69,14 @@ RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
+
 #golang
-RUN sudo apt install curl git mercurial make binutils bison gcc build-essential golang-go -y
-    #gvm
-RUN sudo bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
-    source $HOME/.gvm/scripts/gvm
-    #package manager
+#gvm
+RUN sudo bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) 
+RUN . $HOME/.gvm/scripts/gvm
+#go package manager
 RUN gvm install go1.16.5 && gvm use go1.16.5 &&\
     go get -u github.com/justjanne/powerline-go
-
-RUN touch $HOME/.bashrc
 
 #Debian系では$削除
 RUN echo -e '\n\
