@@ -11,15 +11,20 @@ COPY ./config/php.ini /usr/local/etc/php/conf.d/
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get -y install --no-install-recommends wget unzip sudo less vim ibus-mozc \
     iputils-ping git locales \
-    curl git mercurial make binutils bison gcc build-essential golang-go \
+    curl git mercurial make binutils bison \
+    gcc build-essential golang-go \
+    &&\
     apt-get -y clean \
-    && rm -rf /var/lib/apt/lists/*
+    && \
+    rm -rf /var/lib/apt/lists/*
 
 
 #日本語化
-RUN echo "ja_JP UTF-8" > /etc/locale.gen
-RUN locale-gen
-RUN echo export LANG=ja_JP.UTF-8 >> ~/.profile
+RUN echo "ja_JP UTF-8" > /etc/locale.gen \
+    && \
+    locale-gen \
+    && \
+    echo export LANG=ja_JP.UTF-8 >> ~/.profile
 
 #webadmin作成
 ARG UID=1000

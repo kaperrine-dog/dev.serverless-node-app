@@ -42,16 +42,15 @@ RUN sudo apk --no-cache add shadow \
     vim \
     curl \
     git \
-    tzdata
+    tzdata \
+    go
 
 RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime &&\
     apk del tzdata
 
 USER node
 
-RUN sudo apk --no-cache add go && \
-    go get -u github.com/justjanne/powerline-go
-
+RUN go get -u github.com/justjanne/powerline-go
 RUN touch /home/node/.bashrc
 
 #Debian系では$削除
