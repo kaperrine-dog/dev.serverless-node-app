@@ -1,5 +1,8 @@
 FROM wordpress:5.7.2-php7.4-apache
 
+#SymLink to /bin/bash
+RUN mv /bin/sh /bin/sh_tmp && ln -s /bin/bash /bin/sh
+
 WORKDIR /var/www/html
 COPY ./wp-setup.sh /var/www/html/
 COPY ./config/php.ini /usr/local/etc/php/conf.d/
@@ -87,3 +90,6 @@ ARG THEMENAME=${HOST}
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
 #RUN /var/www/html/wp-setup.sh
+
+#Remove modified SymLink and init
+RUN sudo rm /bin/sh && mv /bin/sh_tmp /bin/sh
