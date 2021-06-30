@@ -9,14 +9,32 @@ COPY ./config/php.ini /usr/local/etc/php/conf.d/
 
 #諸々インストール
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get -y install --no-install-recommends wget unzip sudo less vim ibus-mozc \
-    iputils-ping git locales \
-    curl git mercurial make binutils bison \
-    gcc build-essential golang-go \
-    &&\
+RUN apt-get -y install --no-install-recommends \
+    wget \
+    unzip \
+    sudo \
+    less \
+    vim \
+    ibus-mozc \
+    iputils-ping \
+    git \
+    locales \
+    curl \
+    mercurial \
+    make \
+    binutils \
+    bison \
+    gcc \
+    g++ \
+    libc6-dev \
+    pkg-config \
+    build-essential \
+    && \
     apt-get -y clean \
     && \
     rm -rf /var/lib/apt/lists/*
+
+ENV PATH /usr/local/go/bin:$PATH
 
 
 #日本語化
@@ -59,32 +77,44 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 ENV WPINSTALLDIR=/var/www/html
 
 # nvm install
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
 # nvm .profile install node --lts
-RUN echo -e 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
-RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
-RUN . $HOME/.bashrc
-RUN nvm install --lts
+#RUN echo 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
+#RUN echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
+#SHELL ["/bin/bash", "-c"]
+#RUN sudo chown root:root $HOME/.bashrc && chmod 777 $HOME/.bashrc
+#RUN sudo $HOME/.bashrc
+#RUN nvm install --lts
+
 
 # Node.js 14.x install
-#RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-#RUN sudo apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
+    sudo apt-get install -y nodejs
 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
 
 #golang
-#gvm
-RUN sudo bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) 
-RUN . $HOME/.gvm/scripts/gvm
-#go package manager
-RUN gvm install go1.16.5 && gvm use go1.16.5 &&\
-    go get -u github.com/justjanne/powerline-go
+SHELL ["/bin/bash", "-c"]
 
-#Debian系では$削除
-RUN echo -e '\n\
+RUN wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz
+RUN export PATH=$PATH:/usr/local/go/bin && \
+echo -e 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile && \
+echo -e '\n\
+if [ -f ~/.bash_aliases ]; then\n\
+    . ~/.bash_aliases\n\
+fi\n\
+alias s="source ~/.profile && source ~/.bashrc"\n\
+' >> $HOME/.bashrc && \
+    rm -rf go1.16.5.linux-amd64.tar.gz
+
+
+#powerline-go
+RUN go get -u github.com/justjanne/powerline-go && \
+echo -e '\n\
 GOPATH=$HOME/go\n\
 function _update_ps1() {\n\
     PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
@@ -93,6 +123,30 @@ if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
 fi\n\
 ' >> $HOME/.bashrc
+
+#RUN powerline
+# WORKDIR $HOME
+# RUN git clone https://github.com/b-ryan/powerline-shell
+# WORKDIR $HOME/powerline-shell
+# RUN python setup.py install
+
+# #Debian系
+# RUN echo -e '\n\
+# function _update_ps1() {\n\
+#   PS1=$(powerline-shell $?)\n\
+# }\n\
+# \n\
+# if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then\n\
+#   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
+# fi\n\
+# ' >> $HOME/.bashrc
+
+RUN echo -e '\n\
+if [ -f ~/.bashrc ] ; then\n\
+  . ~/.bashrc\n\
+fi\n\
+' >> $HOME/.profile
+
 
 
 ARG THEMENAME=${HOST}
