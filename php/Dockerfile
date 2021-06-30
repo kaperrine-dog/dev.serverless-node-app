@@ -64,7 +64,7 @@ RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' 
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
 #golang
-RUN sudo apt install curl git mercurial make binutils bison gcc build-essential golang-go
+RUN sudo apt install curl git mercurial make binutils bison gcc build-essential golang-go -y
     #gvm
 RUN sudo bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
     source $HOME/.gvm/scripts/gvm
