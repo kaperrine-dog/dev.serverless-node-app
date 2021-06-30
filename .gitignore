@@ -3,6 +3,6 @@ wp-config.php
 .DS_Store
 .git/
 wp-config/
-**/php/src/
+**/php/src/**
 
 node/app/**
