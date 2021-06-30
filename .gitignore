@@ -6,3 +6,4 @@ wp-config/
 **/php/src/**
 
 node/app/**
+/.env
