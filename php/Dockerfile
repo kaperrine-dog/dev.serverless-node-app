@@ -4,8 +4,8 @@ WORKDIR /var/www/html
 COPY ./wp-setup.sh /var/www/html/
 COPY ./config/php.ini /usr/local/etc/php/conf.d/
 
-RUN apt-get update
-RUN apt-get -y install wget unzip sudo less vim ibus-mozc iputils-ping
+RUN apt update
+RUN apt -y install wget unzip sudo less vim ibus-mozc iputils-ping git
 
 #日本語化
 RUN apt-get install -y locales
@@ -59,6 +59,29 @@ RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' 
 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
+
+#golang
+RUN sudo apt install curl git mercurial make binutils bison gcc build-essential golang-go
+    #gvm
+RUN sudo bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
+    source $HOME/.gvm/scripts/gvm
+    #package manager
+RUN gvm install go1.16.5 && gvm use go1.16.5 &&\
+    go get -u github.com/justjanne/powerline-go
+
+RUN touch $HOME/.bashrc
+
+#Debian系では$削除
+RUN echo -e '\n\
+GOPATH=$HOME/go\n\
+function _update_ps1() {\n\
+    PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
+}\n\
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
+fi\n\
+' >> $HOME/.bashrc
+
 
 ARG THEMENAME=${HOST}
 COPY ./wp-setup.sh ${WPINSTALLDIR}/

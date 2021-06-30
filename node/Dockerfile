@@ -44,8 +44,26 @@ RUN sudo apk --no-cache add shadow \
     git \
     tzdata
 
-RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
+RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime &&\
     apk del tzdata
+
+USER node
+
+RUN sudo apk --no-cache add go && \
+    go get -u github.com/justjanne/powerline-go
+
+RUN touch /home/node/.bashrc
+
+#Debian系では$削除
+RUN echo -e $'\n\
+GOPATH=$HOME/go\n\
+function _update_ps1() {\n\
+    PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
+}\n\
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
+fi\n\
+' >> /home/node/.bashrc
 
 #RUN passwd node:node && passwd root:root
 

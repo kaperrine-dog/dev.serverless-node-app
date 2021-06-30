@@ -4,3 +4,5 @@ wp-config.php
 .git/
 wp-config/
 **/php/src/
+
+node/app/**
