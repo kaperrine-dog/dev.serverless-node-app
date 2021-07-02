@@ -51,11 +51,17 @@ services:
       WORDPRESS_TABLE_PREFIX: wp_
     volumes:
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
-      - ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
-      - ./php/src/${HOST_NAME}/httpdocs/.htaccess:/var/www/html/.htaccess
+      - ./php/src/${HOST_NAME}/httpdocs/wp-content/themes/:/var/www/html/wp-content/themes/:cached
+      - ./php/src/${HOST_NAME}/httpdocs/wp-content/uploads/:/var/www/html/wp-content/uploads/:cached
+      - ./php/src/${HOST_NAME}/httpdocs/wp-content/plugins/:/var/www/html/wp-content/plugins/:cached
+      #- ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
+      #- ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
+      #- ./php/src/${HOST_NAME}/httpdocs/cms/wp-content/plugins:/var/www/html/wp-content/plugins:cached
+      #- ./php/src/${HOST_NAME}/httpdocs/.htaccess:/var/www/html/.htaccess
       - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
       - ./php/docker-entrypoint.sh:/var/www/html/docker-entrypoint.sh
+      
+      #if headless wp
       #- ./wp/wp-setup.sh:/var/www/html/wp-setup.sh
       #- ./wp/config/php.ini:/usr/local/etc/php/conf.d/php.ini
       #- ./wp/themes/:/var/www/html/wp-content/themes/:cached

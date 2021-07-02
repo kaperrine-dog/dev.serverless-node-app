@@ -20,15 +20,15 @@ RUN apt-get -y install --no-install-recommends \
     git \
     locales \
     curl \
-    mercurial \
-    make \
-    binutils \
-    bison \
     gcc \
     g++ \
-    libc6-dev \
-    pkg-config \
-    build-essential \
+    # mercurial \
+    # make \
+    # binutils \
+    # bison \
+    # libc6-dev \
+    # pkg-config \
+    # build-essential \
     && \
     apt-get -y clean \
     && \
@@ -150,7 +150,8 @@ fi\n\
 
 
 ARG THEMENAME=${HOST}
+COPY ./.htaccess ${WPINSTALLDIR}/
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
-#RUN /var/www/html/wp-setup.sh
 
+#RUN /var/www/html/wp-setup.sh
