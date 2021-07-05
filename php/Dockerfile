@@ -97,32 +97,25 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
 
 
 #golang
-SHELL ["/bin/bash", "-c"]
+#SHELL ["/bin/bash", "-c"]
 
-RUN wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz
-RUN export PATH=$PATH:/usr/local/go/bin && \
-echo -e 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile && \
-echo -e '\n\
-if [ -f ~/.bash_aliases ]; then\n\
-    . ~/.bash_aliases\n\
-fi\n\
-alias s="source ~/.profile && source ~/.bashrc"\n\
-' >> $HOME/.bashrc && \
-    rm -rf go1.16.5.linux-amd64.tar.gz
+#RUN wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz && \
+#    tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz
+#RUN export PATH=$PATH:/usr/local/go/bin && \
+#echo -e 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile && \
+#echo -e '\n\
+#if [ -f ~/.bash_aliases ]; then\n\
+#    . ~/.bash_aliases\n\
+#fi\n\
+#alias s="source ~/.profile && source ~/.bashrc"\n\
+#' >> $HOME/.bashrc && \
+#    rm -rf go1.16.5.linux-amd64.tar.gz
 
 
 #powerline-go
-RUN go get -u github.com/justjanne/powerline-go && \
-echo -e '\n\
-GOPATH=$HOME/go\n\
-function _update_ps1() {\n\
-    PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
-}\n\
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
-fi\n\
-' >> $HOME/.bashrc
+
+#prompt customize
+RUN echo 'PS1="\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\e[0m\]\$ "' >> $HOME/.bashrc
 
 #RUN powerline
 # WORKDIR $HOME
