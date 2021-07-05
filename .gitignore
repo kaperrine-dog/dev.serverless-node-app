@@ -5,5 +5,5 @@ wp-config.php
 wp-config/
 **/php/src/**
 
-node/app/**
+**/node/app/**
 /.env
