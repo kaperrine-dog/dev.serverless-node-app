@@ -1,20 +1,48 @@
 FROM wordpress:5.7.2-php7.4-apache
 
-#SymLink to /bin/bash
-RUN mv /bin/sh /bin/sh_tmp && ln -s /bin/bash /bin/sh
+#SHELL to /bin/bash
+#SHELL ["/bin/bash", "-c"]
 
 WORKDIR /var/www/html
 COPY ./wp-setup.sh /var/www/html/
 COPY ./config/php.ini /usr/local/etc/php/conf.d/
 
-RUN apt update
-RUN apt -y install wget unzip sudo less vim ibus-mozc iputils-ping git
+#諸々インストール
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get -y install --no-install-recommends \
+    wget \
+    unzip \
+    sudo \
+    less \
+    vim \
+    ibus-mozc \
+    iputils-ping \
+    git \
+    locales \
+    curl \
+    gcc \
+    g++ \
+    # mercurial \
+    # make \
+    # binutils \
+    # bison \
+    # libc6-dev \
+    # pkg-config \
+    # build-essential \
+    && \
+    apt-get -y clean \
+    && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV PATH /usr/local/go/bin:$PATH
+
 
 #日本語化
-RUN apt-get install -y locales
-RUN echo "ja_JP UTF-8" > /etc/locale.gen
-RUN locale-gen
-RUN echo export LANG=ja_JP.UTF-8 >> ~/.profile
+RUN echo "ja_JP UTF-8" > /etc/locale.gen \
+    && \
+    locale-gen \
+    && \
+    echo export LANG=ja_JP.UTF-8 >> ~/.profile
 
 #webadmin作成
 ARG UID=1000
@@ -49,33 +77,44 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 ENV WPINSTALLDIR=/var/www/html
 
 # nvm install
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-# nvm .profile
-RUN echo -e 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
-RUN echo -e '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
+# nvm .profile install node --lts
+#RUN echo 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"' >> ~/.bashrc
+#RUN echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.bashrc
+#SHELL ["/bin/bash", "-c"]
+#RUN sudo chown root:root $HOME/.bashrc && chmod 777 $HOME/.bashrc
+#RUN sudo $HOME/.bashrc
+#RUN nvm install --lts
 
 
 # Node.js 14.x install
-#RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-#RUN sudo apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
+    sudo apt-get install -y nodejs
 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
 
+
 #golang
-RUN sudo apt install curl git mercurial make binutils bison gcc build-essential golang-go
-    #gvm
-RUN sudo bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
-    source $HOME/.gvm/scripts/gvm
-    #package manager
-RUN gvm install go1.16.5 && gvm use go1.16.5 &&\
-    go get -u github.com/justjanne/powerline-go
+SHELL ["/bin/bash", "-c"]
 
-RUN touch $HOME/.bashrc
+RUN wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.16.5.linux-amd64.tar.gz
+RUN export PATH=$PATH:/usr/local/go/bin && \
+echo -e 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.profile && \
+echo -e '\n\
+if [ -f ~/.bash_aliases ]; then\n\
+    . ~/.bash_aliases\n\
+fi\n\
+alias s="source ~/.profile && source ~/.bashrc"\n\
+' >> $HOME/.bashrc && \
+    rm -rf go1.16.5.linux-amd64.tar.gz
 
-#Debian系では$削除
-RUN echo -e '\n\
+
+#powerline-go
+RUN go get -u github.com/justjanne/powerline-go && \
+echo -e '\n\
 GOPATH=$HOME/go\n\
 function _update_ps1() {\n\
     PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
@@ -85,11 +124,34 @@ if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
 fi\n\
 ' >> $HOME/.bashrc
 
+#RUN powerline
+# WORKDIR $HOME
+# RUN git clone https://github.com/b-ryan/powerline-shell
+# WORKDIR $HOME/powerline-shell
+# RUN python setup.py install
+
+# #Debian系
+# RUN echo -e '\n\
+# function _update_ps1() {\n\
+#   PS1=$(powerline-shell $?)\n\
+# }\n\
+# \n\
+# if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then\n\
+#   PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
+# fi\n\
+# ' >> $HOME/.bashrc
+
+RUN echo -e '\n\
+if [ -f ~/.bashrc ] ; then\n\
+  . ~/.bashrc\n\
+fi\n\
+' >> $HOME/.profile
+
+
 
 ARG THEMENAME=${HOST}
+COPY ./.htaccess ${WPINSTALLDIR}/
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
-#RUN /var/www/html/wp-setup.sh
 
-#Remove modified SymLink and init
-RUN sudo rm /bin/sh && mv /bin/sh_tmp /bin/sh
+#RUN /var/www/html/wp-setup.sh
