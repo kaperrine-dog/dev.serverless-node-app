@@ -115,7 +115,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
 #powerline-go
 
 #prompt customize
-RUN echo 'PS1="\[\033[01;31m\]\u@\[\033[00m\]\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\e[0m\]\$ "' >> $HOME/.bashrc
+RUN echo 'PS1="\[\033[01;31m\]\u\[\033[00m\]@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\e[0m\]\$ "' >> $HOME/.bashrc
 
 #RUN powerline
 # WORKDIR $HOME
