@@ -46,8 +46,7 @@ services:
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DEBUG: "false"
-      WORDPRESS_WP_DEBUG: "false"
+      WORDPRESS_DEBUG: 0
       WORDPRESS_TABLE_PREFIX: wp_
     volumes:
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
