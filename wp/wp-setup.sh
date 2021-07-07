@@ -4,8 +4,8 @@
 wp core download --allow-root
 
 wp config create --dbname="wordpress" --dbuser="wordpress" --dbpass="wordpress" --dbhost="db:3306" --dbprefix="wp_" --dbcharset="utf8" --allow-root --extra-php <<PHP
-define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG', false );
+define( 'WP_DEBUG_LOG', false );
 PHP
 
 wp core install --path='/var/www/html/' --url='http://localhost' --title='site title' --admin_user='admin' --admin_password='admin' --admin_email='somebody@gmail.com' --allow-root
