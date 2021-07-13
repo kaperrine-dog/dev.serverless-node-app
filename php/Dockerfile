@@ -90,7 +90,8 @@ ENV WPINSTALLDIR=/var/www/html
 
 # Node.js 14.x install
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
-    sudo apt-get install -y nodejs
+    sudo apt-get install -y nodejs && \
+    npm i -g yarn
 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
