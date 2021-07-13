@@ -147,5 +147,7 @@ ARG THEMENAME=${HOST}
 COPY ./.htaccess ${WPINSTALLDIR}/
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
+RUN chown -R webadmin:webadmin /var/www/html
+
 
 #RUN /var/www/html/wp-setup.sh

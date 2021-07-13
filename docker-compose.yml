@@ -1,21 +1,21 @@
 version: "3.7"
 services:
-#  node:
-#    build: 
-#      container_name: ${CONTAINER_NAME}_node
-#      context: ./node
-#      dockerfile: ./Dockerfile
-#    user: "node"
-#    working_dir: /home/node/app
-#    environment:
-#      - NODE_ENV=development
-#    volumes:
-#      - ./node:/home/node/
-#    ports: 
-#      - ${NODE_LOCALPORT8000}:8000
-#      - ${NODE_LOCALPORT3000}:3000
-#      command: ""
-#    stdin_open: true
+  node:
+    container_name: ${CONTAINER_NAME}_node
+    build: 
+      context: ./node
+      dockerfile: ./Dockerfile
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./node:/home/node/
+    ports: 
+      - ${NODE_LOCALPORT8000}:8000
+      - ${NODE_LOCALPORT3000}:3000
+    command: ""
+    stdin_open: true
 
   db:
     container_name: ${CONTAINER_NAME}_db
@@ -51,12 +51,13 @@ services:
     volumes:
       #- ./php/src/${HOST_NAME}/httpdocs/:/var/www/html/:cached
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./php/src/${REPO_NAME}/httpdocs/wp-content/themes/:/var/www/html/wp-content/themes/:cached
-      - ./php/src/${REPO_NAME}/httpdocs/wp-content/uploads/:/var/www/html/wp-content/uploads/:cached
-      - ./php/src/${REPO_NAME}/httpdocs/wp-content/plugins/:/var/www/html/wp-content/plugins/:cached
-      #- ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
-      #- ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
-      #- ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/plugins:/var/www/html/wp-content/plugins:cached
+      # - ./php/src/${REPO_NAME}/httpdocs/wp-content/themes/:/var/www/html/wp-content/themes/:cached
+      # - ./php/src/${REPO_NAME}/httpdocs/wp-content/uploads/:/var/www/html/wp-content/uploads/:cached
+      # - ./php/src/${REPO_NAME}/httpdocs/wp-content/plugins/:/var/www/html/wp-content/plugins/:cached
+      - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
+      - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
+      - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/plugins:/var/www/html/wp-content/plugins:cached
+
       #- ./php/src/${REPO_NAME}/httpdocs/.htaccess:/var/www/html/.htaccess
       - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
       - ./php/docker-entrypoint.sh:/var/www/html/docker-entrypoint.sh
@@ -67,6 +68,7 @@ services:
       #- ./wp/themes/:/var/www/html/wp-content/themes/:cached
       #- ./wp/uploads:/var/www/html/wp-content/uploads:cached
       #- ./wp/.htaccess:/var/www/html/.htaccess
+
     expose: 
       - "80"
 #      - "443"
@@ -75,7 +77,6 @@ services:
 #      - ${WP_HTTPS_LOCALPORT}:443
 #    command: >
 #      /bin/bash docker-entrypoint.sh
-
 
   phpmyadmin:
     container_name: ${CONTAINER_NAME}_phpmyadmin
