@@ -150,5 +150,6 @@ COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
 RUN chown -R webadmin:webadmin /var/www/html
 
+USER webadmin
 
 #RUN /var/www/html/wp-setup.sh
