@@ -51,8 +51,8 @@ services:
     volumes:
       #- ./php/src/${HOST_NAME}/httpdocs/:/var/www/html/:cached
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
-      - ./php/src/${REPO_NAME}/httpdocs/react-app:/var/www/html/react-app:cached
-      - ./php/src/${REPO_NAME}/httpdocs/index.php:/var/www/html/index.php:cached
+      # - ./php/src/${REPO_NAME}/httpdocs/react-app:/var/www/html/react-app:cached
+      # - ./php/src/${REPO_NAME}/httpdocs/index.php:/var/www/html/index.php:cached
 
       # - ./php/src/${REPO_NAME}/httpdocs/wp-content/themes/:/var/www/html/wp-content/themes/:cached
       # - ./php/src/${REPO_NAME}/httpdocs/wp-content/uploads/:/var/www/html/wp-content/uploads/:cached
