@@ -93,7 +93,7 @@ COPY ./app/gatsby/package.json .
 
 #COPY . ./
 
-WORKDIR /home/node/app/gatsby
+WORKDIR /home/node/app
 
 
 RUN yarn global add gatsby-cli
@@ -101,6 +101,7 @@ RUN yarn global add gatsby-cli
 #RUN npm install --save-dev http-server \
 #    && npm install -g gatsby-cli
 
+ARG HOST=0.0.0.0
 
 EXPOSE 80
 EXPOSE 8000
