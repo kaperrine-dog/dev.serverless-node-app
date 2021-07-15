@@ -5,12 +5,9 @@ services:
     build: 
       context: ./node
       dockerfile: ./Dockerfile
-    user: "node"
-    working_dir: /home/node/app
-    environment:
-      - NODE_ENV=development
     volumes:
       - ./node:/home/node/
+      - ./php/src/${REPO_NAME}/httpdocs/react-app:/home/node/app/react-app
     ports: 
       - ${NODE_LOCALPORT8000}:8000
       - ${NODE_LOCALPORT3000}:3000

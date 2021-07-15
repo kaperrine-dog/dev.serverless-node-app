@@ -91,7 +91,8 @@ ENV WPINSTALLDIR=/var/www/html
 # Node.js 14.x install
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
     sudo apt-get install -y nodejs && \
-    npm i -g yarn create-react-​app vue-cli gatsby-cli 
+    npm i -g yarn && \
+    yarn global add vue-cli gatsby-cli
 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
@@ -148,6 +149,16 @@ COPY ./.htaccess ${WPINSTALLDIR}/
 COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
 RUN chown -R webadmin:webadmin /var/www/html
+
+
+# ENV
+# ENV WORDPRESS_DB_HOST=db:3306
+# ENV WORDPRESS_DB_NAME=wordpress
+# ENV WORDPRESS_DB_USER=wordpress
+# ENV WORDPRESS_DB_PASSWORD=wordpress
+# ENV WORDPRESS_DEBUG=0
+# ENV WORDPRESS_TABLE_PREFIX=wp_
+
 
 USER webadmin
 

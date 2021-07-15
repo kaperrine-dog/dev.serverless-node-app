@@ -48,13 +48,26 @@ RUN sudo apk --no-cache add shadow \
 RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime &&\
     apk del tzdata
 
+##---------------##
+##   USER Node   ##
+##---------------##
 USER node
 
-RUN go get -u github.com/justjanne/powerline-go
-RUN touch /home/node/.bashrc
-
 #Debian系では$削除
-RUN echo -e $'\n\
+
+
+RUN touch /home/node/.profile && \
+    echo -e $'\n\
+if [ -n "$BASH_VERSION" ]; then\n\
+    # include .bashrc if it exists\n\
+    if [ -f "$HOME/.bashrc" ]; then\n\
+        . "$HOME/.bashrc"\n\
+    fi\n\
+fi\n\
+' >> /home/node/.profile && \
+    go get -u github.com/justjanne/powerline-go && \
+    touch /home/node/.bashrc && \
+    echo -e $'\n\
 GOPATH=$HOME/go\n\
 function _update_ps1() {\n\
     PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
@@ -85,23 +98,19 @@ fi\n\
 
 # in case of production env
 # ENV NODE_ENV=development
-ENV NODE_ENV=development
-
-WORKDIR /home/node/app
-
-COPY ./app/gatsby/package.json .
-
-#COPY . ./
 
 WORKDIR /home/node/app
 
 
-RUN yarn global add gatsby-cli
+RUN yarn global add gatsby-cli vue-cli create-react-app
+
 
 #RUN npm install --save-dev http-server \
 #    && npm install -g gatsby-cli
 
-ARG HOST=0.0.0.0
+ENV HOST=0.0.0.0
+ENV NODE_ENV=development
+
 
 EXPOSE 80
 EXPOSE 8000
