@@ -9,3 +9,10 @@ wp-config/
 .env
 *.sql
 
+/bk
+*:Zone.Identifier
+*.zip
+package-lock.json
+l-s-l.jp.code-workspace
+WordPress.2021-02-19.xml
+

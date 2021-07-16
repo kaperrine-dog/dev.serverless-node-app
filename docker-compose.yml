@@ -50,15 +50,15 @@ services:
       - ./php/config/php.ini:/usr/local/etc/php/conf.d/php.ini
       #- ./php/src/${REPO_NAME}/httpdocs/react-app:/var/www/html/react-app
       - ./php/src/${REPO_NAME}/httpdocs/index.php:/var/www/html/index.php:cached
-      - ./php/src/${REPO_NAME}/httpdocs/cms:/var/www/html/cms:cached
+      #- ./php/src/${REPO_NAME}/httpdocs/cms:/var/www/html/cms:cached
 
       # - ./php/src/${REPO_NAME}/httpdocs/wp-content/themes/:/var/www/html/wp-content/themes/:cached
       # - ./php/src/${REPO_NAME}/httpdocs/wp-content/uploads/:/var/www/html/wp-content/uploads/:cached
       # - ./php/src/${REPO_NAME}/httpdocs/wp-content/plugins/:/var/www/html/wp-content/plugins/:cached
 
-      # - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
-      # - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
-      # - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/plugins:/var/www/html/wp-content/plugins:cached
+      - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/themes/:/var/www/html/wp-content/themes/:cached
+      - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/uploads:/var/www/html/wp-content/uploads:cached
+      - ./php/src/${REPO_NAME}/httpdocs/cms/wp-content/plugins:/var/www/html/wp-content/plugins:cached
 
       #- ./php/src/${REPO_NAME}/httpdocs/.htaccess:/var/www/html/.htaccess
       - ./php/wp-setup.sh:/var/www/html/wp-setup.sh
