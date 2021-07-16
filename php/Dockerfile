@@ -91,7 +91,8 @@ ENV WPINSTALLDIR=/var/www/html
 # Node.js 14.x install
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
     sudo apt-get install -y nodejs && \
-    npm i -g yarn
+    npm i -g yarn && \
+    yarn global add vue-cli gatsby-cli
 
 #RUN wp core download \
 #    --locale=ja --version=5.6.1 --path=${WPINSTALLDIR} --allow-root
@@ -113,7 +114,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - && \
 #    rm -rf go1.16.5.linux-amd64.tar.gz
 
 
-#powerline-go
 
 #prompt customize
 RUN echo 'PS1="\[\033[01;31m\]\u\[\033[00m\]@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\e[0m\]\$ "' >> $HOME/.bashrc
@@ -150,5 +150,16 @@ COPY ./wp-setup.sh ${WPINSTALLDIR}/
 COPY ./docker-entrypoint.sh ${WPINSTALLDIR}/
 RUN chown -R webadmin:webadmin /var/www/html
 
+
+# ENV
+# ENV WORDPRESS_DB_HOST=db:3306
+# ENV WORDPRESS_DB_NAME=wordpress
+# ENV WORDPRESS_DB_USER=wordpress
+# ENV WORDPRESS_DB_PASSWORD=wordpress
+# ENV WORDPRESS_DEBUG=0
+# ENV WORDPRESS_TABLE_PREFIX=wp_
+
+
+USER webadmin
 
 #RUN /var/www/html/wp-setup.sh
