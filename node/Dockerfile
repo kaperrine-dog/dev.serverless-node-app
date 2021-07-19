@@ -1,6 +1,6 @@
 FROM node:lts-alpine3.12
 
-WORKDIR /home/node/app
+WORKDIR /home/node
 
 #make sudoers and make node sudoers
 RUN apk add sudo
@@ -55,7 +55,6 @@ USER node
 
 #Debian系では$削除
 
-
 RUN touch /home/node/.profile && \
     echo -e $'\n\
 if [ -n "$BASH_VERSION" ]; then\n\
@@ -65,17 +64,24 @@ if [ -n "$BASH_VERSION" ]; then\n\
     fi\n\
 fi\n\
 ' >> /home/node/.profile && \
-    go get -u github.com/justjanne/powerline-go && \
+#    go get -u github.com/justjanne/powerline-go && \
     touch /home/node/.bashrc && \
-    echo -e $'\n\
-GOPATH=$HOME/go\n\
-function _update_ps1() {\n\
-    PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
-}\n\
-if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
-fi\n\
-' >> /home/node/.bashrc
+echo 'PS1="\[\033[01;31m\]\u\[\033[00m\]@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\e[0m\]\$ "' >> $HOME/.bashrc && \
+echo 'PS1="\[\033[01;33m\]\u\[\033[00m\]@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\[\e[0m\]\$ "' >> $HOME/.bashrc
+
+
+#&& \
+#     go get -u github.com/justjanne/powerline-go && \
+#     touch /home/node/.bashrc && \
+#     echo -e $'\n\
+# GOPATH=$HOME/go\n\
+# function _update_ps1() {\n\
+#     PS1="$($GOPATH/bin/powerline-go -error 0)"\n\
+# }\n\
+# if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then\n\
+#     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"\n\
+# fi\n\
+# ' >> /home/node/.bashrc
 
 #RUN passwd node:node && passwd root:root
 
@@ -99,7 +105,7 @@ fi\n\
 # in case of production env
 # ENV NODE_ENV=development
 
-WORKDIR /home/node/app
+WORKDIR /home/node
 
 
 RUN yarn global add gatsby-cli vue-cli create-react-app
@@ -117,3 +123,5 @@ EXPOSE 8000
 EXPOSE 3000
 EXPOSE 9000
 EXPOSE 5000
+
+RUN chown -R node:node /home/node
