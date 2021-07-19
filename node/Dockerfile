@@ -108,7 +108,7 @@ echo 'PS1="\[\033[01;33m\]\u\[\033[00m\]@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[
 WORKDIR /home/node
 
 
-RUN yarn global add gatsby-cli vue-cli create-react-app
+RUN sudo npm i -g gatsby-cli vue-cli create-react-app firebase-tools
 
 
 #RUN npm install --save-dev http-server \
