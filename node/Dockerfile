@@ -85,5 +85,5 @@ ENV NODE_PATH=.
 EXPOSE 80
 EXPOSE 8000
 EXPOSE 3000
-
+COPY ./docker-entrypoint.sh /home/node
 RUN chown -R node:node /home/node

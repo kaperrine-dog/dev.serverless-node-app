@@ -10,5 +10,6 @@ services:
     ports:
       - ${NODE_LOCALPORT8000}:8000
       - ${NODE_LOCALPORT3000}:3000
-    command: ""
+    command: >
+      /bin/bash -c "cd /home/node/react-chatapp && yarn && yarn run start"
     stdin_open: true
