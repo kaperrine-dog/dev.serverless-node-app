@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  node:
+    container_name: ${CONTAINER_NAME}_node
+    build:
+      context: ./node
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./node/react-chatapp:/home/node/react-chatapp
+    ports:
+      - ${NODE_LOCALPORT8000}:8000
+      - ${NODE_LOCALPORT3000}:3000
+    command: ""
+    stdin_open: true
