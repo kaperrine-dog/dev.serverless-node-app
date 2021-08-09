@@ -9,41 +9,17 @@ Dockerコンテナのオーケストレーションツール `Docker compose` �
 ~~~bash
 .
 ├── docker-compose.yml
-├── mysql
-│   ├── Dockerfile
-│   ├── db_data
-│   └── mysqld_charset.cnf
 ├── node
 │   ├── Dockerfile
-│   └── app
-│       ├── LICENSE
-│       ├── README.md
-│       ├── ...node_projects
-├── php
-│   ├── Dockerfile
-│   ├── config
-│   │   └── php.ini
-│   ├── src
-│   │   ├── gulpfile.babel.js
-│   │   ├── package-lock.json
-│   │   ├── package.json
-│   │   └── webpack.config.js
-│   └── wp-setup.sh
-├── phpmyadmin
-│   └── phpmyadmin-misc.ini
-├── readme.md
-└── wp
-    ├── Dockerfile
-    ├── config
-    │   └── php.ini
-    ├── docker-entrypoint.sh
-    ├── gulpfile.babel.js
-    ├── package.json
-    ├── webpack.config.js
-    ├── wp-content
-    │   ├── themes
-    │   └── uploads
-    └── wp-setup.sh
+│   ├── .dockerignore
+│   ├── .gitignore
+│   └── ...node_projects
+├── .gitignore
+├── .env
+├── ex.env
+├── setup.sh
+└── readme.md
+
 ~~~
 # 説明
 - `php/` : `WordPress`や`PHP`のみで動く環境の場合に使用するボリューム`php/src/`で`git clone`を行う
