@@ -36,8 +36,7 @@ RUN sudo apk --no-cache add shadow \
     vim \
     curl \
     git \
-    tzdata \
-    go
+    tzdata
 
 RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime &&\
     apk del tzdata
@@ -52,12 +51,12 @@ WORKDIR /home/node
 
 RUN touch /home/node/.profile && \
   echo -e $'\n\
-  if [ -n "$BASH_VERSION" ]; then\n\
-  # include .bashrc if it exists\n\
-    if [ -f "$HOME/.bashrc" ]; then\n\
-    . "$HOME/.bashrc"\n\
-    fi\n\
+if [ -n "$BASH_VERSION" ]; then\n\
+# include .bashrc if it exists\n\
+  if [ -f "$HOME/.bashrc" ]; then\n\
+  . "$HOME/.bashrc"\n\
   fi\n\
+fi\n\
   ' >> /home/node/.profile && \
     touch /home/node/.bashrc && \
 echo -e $'\n\
@@ -85,5 +84,6 @@ ENV NODE_PATH=.
 EXPOSE 80
 EXPOSE 8000
 EXPOSE 3000
-COPY ./docker-entrypoint.sh /home/node
+USER root
 RUN chown -R node:node /home/node
+USER node
