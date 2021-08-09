@@ -15,5 +15,6 @@ wp-config/
 package-lock.json
 l-s-l.jp.code-workspace
 WordPress.2021-02-19.xml
-
+**/node/**app/**
 **/node/react-chatapp/**
+**/react-chatapp/**
